@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "807126938483",
+    "project_id": "healthypassport-15ba4",
+    "storage_bucket": "healthypassport-15ba4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807126938483:android:f3fcab25d64ee45f6b4b06",
+        "android_client_info": {
+          "package_name": "com.crype.passportofhealth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8OwrUOcbJatVNGtY60qWvKGvK_IgLEpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

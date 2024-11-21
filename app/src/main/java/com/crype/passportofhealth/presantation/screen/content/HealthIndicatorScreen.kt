@@ -1,0 +1,152 @@
+package com.crype.passportofhealth.presantation.screen.content
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.crype.passportofhealth.R
+import com.crype.passportofhealth.domain.model.HealthIndicatorsModel
+import com.crype.passportofhealth.presantation.components.enterInfo.InfoScreenComponent
+import com.crype.passportofhealth.presantation.components.enterInfo.PressureComponent
+import com.crype.passportofhealth.presantation.components.TitleComponent
+import org.koin.androidx.compose.get
+
+@Composable
+fun HealthIndicatorScreen(
+    navController: NavController,
+    modifier: Modifier,
+    viewModel: HealthIndicatorsModel = get()
+) {
+    val example: HealthIndicatorsModel = HealthIndicatorsModel(
+        72f, 185f, 120, 90, 80f, 4f
+    )
+    var isEditText by remember { mutableStateOf(false) }
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            TitleComponent(
+                text = "Показатели здоровья",
+                size = 30.sp
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = { /*TODO*/
+                    isEditText = !isEditText
+                },
+                modifier = Modifier.requiredSize(60.dp)
+            ) {
+                Icon(
+                    painter = painterResource(
+                        id = if (isEditText) R.drawable.icon_save
+                        else R.drawable.icon_edit
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier.requiredSize(40.dp)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            item {
+                InfoScreenComponent(
+                    isEditText = isEditText,
+                    name = "Вес(кг)",
+                    value = example.weight.toString(),
+                    keyboardType = KeyboardType.Number
+                ) {
+
+                }
+            }
+            item {
+                InfoScreenComponent(
+                    isEditText = isEditText,
+                    name = "Рост(см)",
+                    value = example.height.toString(),
+                    keyboardType = KeyboardType.Number
+                ) {
+
+                }
+            }
+            item {
+                InfoScreenComponent(
+                    isEditText = false,
+                    name = "ИМТ",
+                    value = (example.weight / (example.height / 100 * example.height / 100)).toString(),
+                    keyboardType = KeyboardType.Number
+                ) {
+
+                }
+            }
+            item {
+                PressureComponent(
+                    isEditText = isEditText,
+                    name = "Давление",
+                    highPressure = example.highPressure.toString(),
+                    lowPressure = example.lowPressure.toString(),
+                    onHighChange = {
+                        example.highPressure = it.toInt()
+                    },
+                    onLowChange = {
+                        example.lowPressure = it.toInt()
+                    }
+                )
+            }
+            item {
+                InfoScreenComponent(
+                    isEditText = isEditText,
+                    name = "Холестирин",
+                    value = example.cholesterol.toString(),
+                    keyboardType = KeyboardType.Number
+                ) {
+
+                }
+            }
+            item {
+                InfoScreenComponent(
+                    isEditText = isEditText,
+                    name = "Глюкоза",
+                    value = example.glucose.toString(),
+                    keyboardType = KeyboardType.Number
+                ) {
+
+                }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HealthIndicatorPreview() {
+    HealthIndicatorScreen(navController = rememberNavController(), modifier = Modifier)
+}
