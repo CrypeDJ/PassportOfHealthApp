@@ -1,5 +1,6 @@
 package com.crype.passportofhealth.presantation.screen.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,12 +10,17 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,21 +28,36 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.crype.passportofhealth.R
 import com.crype.passportofhealth.domain.model.UserModel
+import com.crype.passportofhealth.presantation.components.dialog.AddUserInfoDialog
 
 @Composable
 fun ProfileScreen(
     navController: NavController,
     modifier: Modifier
 ) {
-    val example = UserModel(
-        "Дударев",
-        "Алексей",
-        "Дмитриевич",
-        "г.Новополоцк, ул.Молодёжная, д.188, корп.1, кв.17",
-        "клуб 'Plaza'",
-        "+375333056785",
-        "litowrog@gmail.com",
-    )
+    var example by remember {
+        mutableStateOf(
+            UserModel(
+                "Дударев",
+                "Алексей",
+                "Дмитриевич",
+                "г.Новополоцк, ул.Молодёжная, д.188, корп.1, кв.17",
+                "клуб 'Plaza'",
+                "+375333056785",
+                "litowrog@gmail.com",
+            )
+        )
+    }
+    val showDialog = remember { mutableStateOf(false) }
+    if (showDialog.value)
+        AddUserInfoDialog(userModel = example,
+            setShowDialog = {
+                showDialog.value = it
+            }) {
+            //Add Info to Firebase
+
+            example = it
+        }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -116,6 +137,18 @@ fun ProfileScreen(
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Normal,
             fontFamily = FontFamily.Serif
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        Text(
+            text = "Изменить",
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Normal,
+            fontFamily = FontFamily.Serif,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.clickable {
+                showDialog.value = true
+            }
         )
     }
 }

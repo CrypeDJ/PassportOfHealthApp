@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.crype.passportofhealth.R
 import com.crype.passportofhealth.presantation.components.buttons.MainButtonComponent
 import com.crype.passportofhealth.presantation.components.TitleComponent
+import com.crype.passportofhealth.presantation.navigation.ContentScreen
 
 @Composable
 fun StartScreen(
@@ -38,26 +39,34 @@ fun StartScreen(
             item{
                 MainButtonComponent (
                     text = "Вакцины",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(route = ContentScreen.Vaccination.route)
+                    },
                     painter = painterResource(id = R.drawable.icon_vaccination)
                 )
             }
             item{
                 MainButtonComponent (
                     text = "Показатели здоровья",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(route = ContentScreen.HealthIndicator.route)
+                    },
                     painter = painterResource(id = R.drawable.icon_health_indicator)                )
             }
             item{
                 MainButtonComponent (
                     text = "Заболевания и аллергии",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(route = ContentScreen.Disease.route)
+                    },
                     painter = painterResource(id = R.drawable.icon_illness)                )
             }
             item{
                 MainButtonComponent (
                     text = "Образ жизни",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(route = ContentScreen.Lifecycle.route)
+                    },
                     painter = painterResource(id = R.drawable.icon_lifestyle)                )
             }
         }

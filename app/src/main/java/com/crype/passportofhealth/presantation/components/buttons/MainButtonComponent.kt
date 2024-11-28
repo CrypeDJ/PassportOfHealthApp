@@ -55,7 +55,7 @@ fun MainButtonComponent(
             Spacer(modifier = Modifier.height(5.dp))
             Text(
                 text = text,
-                fontSize = 17.sp,
+                fontSize = 15.sp,
                 textAlign = TextAlign.Center,
                 color = Color.White,
                 fontFamily = FontFamily.Serif,

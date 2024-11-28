@@ -27,20 +27,27 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.crype.passportofhealth.R
 import com.crype.passportofhealth.domain.model.HealthIndicatorsModel
+import com.crype.passportofhealth.presantation.components.TitleComponent
 import com.crype.passportofhealth.presantation.components.enterInfo.InfoScreenComponent
 import com.crype.passportofhealth.presantation.components.enterInfo.PressureComponent
-import com.crype.passportofhealth.presantation.components.TitleComponent
-import org.koin.androidx.compose.get
 
 @Composable
 fun HealthIndicatorScreen(
     navController: NavController,
     modifier: Modifier,
-    viewModel: HealthIndicatorsModel = get()
 ) {
-    val example: HealthIndicatorsModel = HealthIndicatorsModel(
-        72f, 185f, 120, 90, 80f, 4f
-    )
+    var example by remember {
+        mutableStateOf(
+            HealthIndicatorsModel(
+                weight = "72",
+                height = "185",
+                highPressure =  "120",
+                lowPressure = "90",
+                glucose = "80",
+                cholesterol = "4"
+            )
+        )
+    }
     var isEditText by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
@@ -58,7 +65,7 @@ fun HealthIndicatorScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = { /*TODO*/
+                onClick = { /*TODO*/ //save to db
                     isEditText = !isEditText
                 },
                 modifier = Modifier.requiredSize(60.dp)
@@ -69,7 +76,7 @@ fun HealthIndicatorScreen(
                         else R.drawable.icon_edit
                     ),
                     contentDescription = null,
-                    modifier = Modifier.requiredSize(40.dp)
+                    modifier = Modifier.requiredSize(25.dp)
                 )
             }
         }
@@ -81,69 +88,56 @@ fun HealthIndicatorScreen(
                 InfoScreenComponent(
                     isEditText = isEditText,
                     name = "Вес(кг)",
-                    value = example.weight.toString(),
+                    value = example.weight,
                     keyboardType = KeyboardType.Number
-                ) {
-
-                }
+                ) { example = example.copy(weight = it) }
             }
             item {
                 InfoScreenComponent(
                     isEditText = isEditText,
                     name = "Рост(см)",
-                    value = example.height.toString(),
+                    value = example.height,
                     keyboardType = KeyboardType.Number
-                ) {
-
-                }
+                ) { example = example.copy(height = it) }
             }
             item {
                 InfoScreenComponent(
                     isEditText = false,
                     name = "ИМТ",
-                    value = (example.weight / (example.height / 100 * example.height / 100)).toString(),
+                    value = (example.weight.toFloat() / (example.height.toFloat() / 100 * example.height.toFloat() / 100)).toString(),
                     keyboardType = KeyboardType.Number
-                ) {
-
-                }
+                ) {}
             }
             item {
                 PressureComponent(
                     isEditText = isEditText,
                     name = "Давление",
-                    highPressure = example.highPressure.toString(),
-                    lowPressure = example.lowPressure.toString(),
-                    onHighChange = {
-                        example.highPressure = it.toInt()
-                    },
-                    onLowChange = {
-                        example.lowPressure = it.toInt()
-                    }
+                    highPressure = example.highPressure,
+                    lowPressure = example.lowPressure,
+                    onHighChange = { example = example.copy(highPressure = it) },
+                    onLowChange = { example = example.copy(lowPressure = it) }
                 )
             }
             item {
                 InfoScreenComponent(
                     isEditText = isEditText,
                     name = "Холестирин",
-                    value = example.cholesterol.toString(),
+                    value = example.cholesterol,
                     keyboardType = KeyboardType.Number
-                ) {
-
-                }
+                ) { example = example.copy(cholesterol = it) }
             }
             item {
                 InfoScreenComponent(
                     isEditText = isEditText,
                     name = "Глюкоза",
-                    value = example.glucose.toString(),
+                    value = example.glucose,
                     keyboardType = KeyboardType.Number
-                ) {
-
-                }
+                ) { example = example.copy(glucose = it) }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

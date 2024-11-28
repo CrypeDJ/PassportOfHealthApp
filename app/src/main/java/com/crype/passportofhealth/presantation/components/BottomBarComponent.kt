@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,14 +32,16 @@ fun BottomBarComponent(
     onVaccinationClick: () -> Unit,
     onLifecycleClick: () -> Unit,
     onHealthIndicatorsClick: () -> Unit,
+    onStartClick:() ->Unit
 ) {
+    val spacerWidth = 25.dp
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = onLifecycleClick,
             modifier = Modifier.requiredSize(60.dp)
             ) {
             Icon(
@@ -46,21 +50,31 @@ fun BottomBarComponent(
                 Modifier.requiredSize(30.dp)
             )
         }
-        Spacer(modifier = Modifier.width(40.dp))
+        Spacer(modifier = Modifier.width(spacerWidth))
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = onHealthIndicatorsClick,
             modifier = Modifier.requiredSize(60.dp)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_health_indicator),
                 contentDescription = "",
                 Modifier.requiredSize(30.dp),
-                tint = Color.Black
             )
         }
-        Spacer(modifier = Modifier.width(40.dp))
+        Spacer(modifier = Modifier.width(spacerWidth))
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = onStartClick,
+            modifier = Modifier.requiredSize(60.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Home,
+                contentDescription = "",
+                Modifier.requiredSize(35.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(spacerWidth))
+        IconButton(
+            onClick = onVaccinationClick,
             modifier = Modifier.requiredSize(60.dp)
         ) {
             Icon(
@@ -77,7 +91,7 @@ fun BottomBarComponent(
 fun BottomBarPreview(
 
 ) {
-    BottomBarComponent(onVaccinationClick = { /*TODO*/ }, onLifecycleClick = { /*TODO*/ }) {
+    BottomBarComponent(onVaccinationClick = { /*TODO*/ }, onLifecycleClick = { /*TODO*/ }, onHealthIndicatorsClick = {}) {
 
     }
 

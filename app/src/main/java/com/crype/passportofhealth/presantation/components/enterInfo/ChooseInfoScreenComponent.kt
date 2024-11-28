@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.DropdownMenu
@@ -19,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,13 +41,13 @@ fun ChooseInfoScreenComponent(
     ) {
         Text(
             text = "$name: ",
-            fontSize = 20.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(end = 5.dp)
         )
         Box(
             Modifier.wrapContentSize(Alignment.TopEnd)
-        ){
+        ) {
             Text(
                 text = text,
                 modifier = Modifier
@@ -56,12 +56,14 @@ fun ChooseInfoScreenComponent(
                         else false
                     }
                     .fillMaxWidth(),
-                fontSize = 20.sp,
+                fontSize = 15.sp,
+                textDecoration = if (isEditText) TextDecoration.Underline
+                else TextDecoration.None
             )
             DropdownMenu(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
-                Modifier.wrapContentSize(Alignment.TopEnd).height(100.dp)
+                Modifier.wrapContentSize(Alignment.TopEnd)
             ) {
                 listOfVariants.forEach { it ->
                     DropdownMenuItem(
@@ -91,6 +93,6 @@ fun ChooseInfoScreenPreview() {
         isEditText = true,
         name = "Тип питания",
         value = "Сбалансированный",
-        listOfVariants = mutableListOf("sfsdf","sgsdgfsd","sgsggsdg")
+        listOfVariants = mutableListOf("sfsdf", "sgsdgfsd", "sgsggsdg")
     )
 }

@@ -1,6 +1,8 @@
 package com.crype.passportofhealth.presantation.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,17 +22,22 @@ import com.crype.passportofhealth.presantation.ui.theme.Green
 import com.crype.passportofhealth.presantation.ui.theme.LightGreen
 import com.crype.passportofhealth.presantation.ui.theme.TextGrey
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListItemComponent(
     mainText: String,
     description: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick:() -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(25.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() },
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
+            ),
         colors = CardDefaults.cardColors().copy(
             containerColor = LightGreen
         ),
@@ -42,7 +49,7 @@ fun ListItemComponent(
                 text = mainText,
                 color = Green,
                 fontWeight = FontWeight.Bold,
-                fontSize = 35.sp,
+                fontSize = 25.sp,
                 modifier = Modifier.padding(bottom = 5.dp),
                 fontFamily = FontFamily.Serif
             )
@@ -67,5 +74,5 @@ fun ListItemComponent(
 @Preview(showBackground = true)
 @Composable
 fun ListItemComponentPrev() {
-    ListItemComponent(mainText = "Gsdlfnsdlk", description = "15.02.2003", onClick = {})
+    ListItemComponent(mainText = "Gsdlfnsdlk", description = "15.02.2003", onClick = {}, onLongClick = {})
 }

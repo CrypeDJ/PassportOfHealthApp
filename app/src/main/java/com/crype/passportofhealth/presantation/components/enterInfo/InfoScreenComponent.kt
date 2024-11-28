@@ -9,6 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,23 +29,46 @@ fun InfoScreenComponent(
     name: String,
     value: String,
     keyboardType: KeyboardType,
-    onValueChange: () -> Unit
+    onValueChange: (String) -> Unit
 ) {
+    var inValueEmpty by remember {
+        mutableStateOf(false)
+    }
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = "$name: ",
-            fontSize = 20.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(end = 5.dp)
         )
         TextField(
             value = value,
-            onValueChange = {onValueChange()},
-            readOnly = isEditText,
+            onValueChange = { newValue ->
+                if (newValue.matches(Regex("^\\d*\\.?\\d*\$")) && newValue.length < 6) {
+                    // Если ввод пустой, установим "0"
+                    if (newValue.isEmpty()) {
+                        inValueEmpty = true
+                        onValueChange("0")
+                    } else {
+                        // Обновляем значение, но предотвращаем удаление, если это пустая строка
+                        if (inValueEmpty) {
+                            inValueEmpty = false
+                            onValueChange(newValue.dropLast(1)) // Оставляем новое значение
+                        } else {
+                            onValueChange(newValue)
+                        }
+                    }
+                } else if (newValue.isEmpty()) {
+                    // Если строка пуста, устанавливаем "0"
+                    inValueEmpty = true
+                    onValueChange("0")
+                }
+            },
+            readOnly = !isEditText,
             textStyle = TextStyle().copy(
-                fontSize = 20.sp
+                fontSize = 15.sp
             ),
             keyboardOptions = KeyboardOptions().copy(
                 keyboardType = keyboardType
@@ -52,6 +79,7 @@ fun InfoScreenComponent(
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent
             ),
+            singleLine = true,
             shape = RoundedCornerShape(15.dp)
         )
     }
@@ -60,5 +88,11 @@ fun InfoScreenComponent(
 @Preview
 @Composable
 fun InfoScreenPreview() {
-    InfoScreenComponent(isEditText = true, name = "Дата", value = "15.04.2024", onValueChange = {}, keyboardType = KeyboardType.Text)
+    InfoScreenComponent(
+        isEditText = true,
+        name = "Дата",
+        value = "15.04.2024",
+        onValueChange = {},
+        keyboardType = KeyboardType.Text
+    )
 }

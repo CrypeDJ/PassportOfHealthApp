@@ -71,7 +71,7 @@ fun LifecycleScreen(
                         else R.drawable.icon_edit
                     ),
                     contentDescription = null,
-                    modifier = Modifier.requiredSize(40.dp)
+                    modifier = Modifier.requiredSize(25.dp)
                 )
             }
         }
@@ -81,92 +81,112 @@ fun LifecycleScreen(
         ) {
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = true,
+                    isEditText = isEditText,
                     name = "Тип питания",
                     value = example.typeOfNutrition,
                     listOfVariants = mutableListOf(
-                        "seggseg",
-                        "sgeseg",
-                        "gessegse",
-                        "sgsedgs"
+                        "Обычный",
+                        "Вегетарианство",
+                        "Веганство",
+                        "Палео диета",
+                        "Кетогенная диета",
+                        "Средиземноморская диета",
+                        "Диета Дюкана",
+                        "Другое",
                     )
                 )
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = true,
+                    isEditText = isEditText,
                     name = "Режим питания",
                     value = example.modeOfNutrition,
                     listOfVariants = mutableListOf(
-                        "seggseg",
-                        "sgeseg",
-                        "gessegse",
-                        "sgsedgs"
+                        "3 раза в день",
+                        "2 раза в день",
+                        "4 раза в день",
+                        "5 раз в день",
+                        "Больше 5 раз в день",
+                        "Менее 2 раз в день",
                     )
                 )
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = true,
+                    isEditText = isEditText,
                     name = "Курение",
                     value = example.smoking,
                     listOfVariants = mutableListOf(
-                        "seggseg",
-                        "sgeseg",
-                        "gessegse",
-                        "sgsedgs"
+                        "Никогда",
+                        "Реже одного раза в месяц",
+                        "Несколько раз в месяц",
+                        "Несколько раз в неделю",
+                        "1-2 раза в день",
+                        "Более 2 раз в день",
                     )
                 )
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = true,
+                    isEditText = isEditText,
                     name = "Алкоголь",
                     value = example.alcohol,
                     listOfVariants = mutableListOf(
-                        "seggseg",
-                        "sgeseg",
-                        "gessegse",
-                        "sgsedgs"
+                        "Никогда",
+                        "Реже одного раза в месяц",
+                        "Несколько раз в месяц",
+                        "Несколько раз в неделю",
+                        "1-2 раза в день",
+                        "Более 2 раз в день",
                     )
                 )
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = true,
+                    isEditText = isEditText,
                     name = "Наркота",
                     value = example.drugs,
                     listOfVariants = mutableListOf(
-                        "seggseg",
-                        "sgeseg",
-                        "gessegse",
-                        "sgsedgs"
+                        "Никогда",
+                        "Реже одного раза в месяц",
+                        "Несколько раз в месяц",
+                        "Несколько раз в неделю",
+                        "1-2 раза в день",
+                        "Более 2 раз в день",
                     )
                 )
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = true,
-                    name = "Тип физ.активности",
+                    isEditText = isEditText,
+                    name = "Частота физ. активности",
                     value = example.physicalActivity,
                     listOfVariants = mutableListOf(
-                        "seggseg",
-                        "sgeseg",
-                        "gessegse",
-                        "sgsedgs"
+                        "Никогда",
+                        "Меньше одного раза в неделю",
+                        "1-2 раза в неделю",
+                        "3-4 раза в неделю",
+                        "5-6 раз в неделю",
+                        "Ежедневно",
+                        "Больше одного раза в день"
                     )
                 )
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = true,
-                    name = "Частота физ. активности",
+                    isEditText = isEditText,
+                    name = "Тип физ.активности",
                     value = example.frequencyOfPhysical,
                     listOfVariants = mutableListOf(
-                        "seggseg",
-                        "sgeseg",
-                        "gessegse",
-                        "sgsedgs"
+                        "Нет",
+                        "Пешие прогулки",
+                        "Легкая зарядка или растяжка",
+                        "Кардио тренировки",
+                        "Силовые тренировки",
+                        "Спортивные игры",
+                        "Йога или пилатес",
+                        "Танцы или аэробика",
+                        "Гибридные тренировки"
                     )
                 )
             }

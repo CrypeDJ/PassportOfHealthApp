@@ -1,5 +1,8 @@
 package com.crype.passportofhealth.presantation.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,9 +14,11 @@ import com.crype.passportofhealth.presantation.screen.content.LifecycleScreen
 import com.crype.passportofhealth.presantation.screen.content.ProfileScreen
 import com.crype.passportofhealth.presantation.screen.content.StartScreen
 import com.crype.passportofhealth.presantation.screen.content.VaccinationScreen
+import com.crype.passportofhealth.presantation.screen.root.LoginScreen
+import com.crype.passportofhealth.presantation.screen.root.RegistrationScreen
 
 @Composable
-fun ContentNavGraph(
+fun NavGraph(
     navController: NavHostController,
     startDestination: String,
     modifier: Modifier
@@ -21,6 +26,12 @@ fun ContentNavGraph(
     NavHost(
         navController = navController,
         startDestination = startDestination,
+        enterTransition = {
+            fadeIn(tween(0))
+        },
+        exitTransition = {
+            fadeOut(tween(0))
+        }
     ) {
         composable(route = ContentScreen.Start.route){
             StartScreen(
@@ -42,6 +53,12 @@ fun ContentNavGraph(
         }
         composable(route = ContentScreen.Vaccination.route){
             VaccinationScreen(navController = navController, modifier = modifier)
+        }
+        composable(route = RootScreen.Login.route){
+            LoginScreen(navController)
+        }
+        composable(route = RootScreen.Register.route){
+            RegistrationScreen(navController)
         }
     }
 }

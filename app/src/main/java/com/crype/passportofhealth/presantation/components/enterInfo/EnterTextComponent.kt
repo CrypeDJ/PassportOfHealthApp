@@ -38,7 +38,9 @@ fun EnterTextComponent(
             visualTransformation = visualTransformation,
             colors = TextFieldDefaults.colors().copy(
                 focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent
+                unfocusedContainerColor = Color.Transparent,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
             )
         )
         HorizontalDivider()

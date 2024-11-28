@@ -24,24 +24,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.crype.passportofhealth.domain.model.VaccinationModel
+import com.crype.passportofhealth.domain.model.UserModel
 import com.crype.passportofhealth.presantation.ui.theme.Green
 
 @Composable
-fun AddVaccinationDialog(
-    vaccinationModel: VaccinationModel,
+fun AddUserInfoDialog(
+    userModel: UserModel,
     setShowDialog: (Boolean) -> Unit,
-    setValue: (VaccinationModel) -> Unit
+    setValue: (UserModel) -> Unit
 ) {
-    var type by remember { mutableStateOf(vaccinationModel.type) }
-    var name by remember { mutableStateOf(vaccinationModel.name) }
-    var date by remember { mutableStateOf(vaccinationModel.date) }
-    var series by remember { mutableStateOf(vaccinationModel.series) }
-    var reaction by remember { mutableStateOf(vaccinationModel.reaction) }
+    var name by remember { mutableStateOf(userModel.name) }
+    var surname by remember { mutableStateOf(userModel.surname) }
+    var lastname by remember { mutableStateOf(userModel.lastname) }
+    var address by remember { mutableStateOf(userModel.address) }
+    var workPlace by remember { mutableStateOf(userModel.workPlace) }
+    var phoneNumber by remember { mutableStateOf(userModel.phoneNumber) }
+    var mail by remember { mutableStateOf(userModel.email) }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -61,12 +62,12 @@ fun AddVaccinationDialog(
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     TextField(
-                        value = name,
+                        value = surname,
                         onValueChange = {
-                            name = it.take(20)
+                           surname = it.take(20)
                         },
                         placeholder = {
-                            Text(text = "Название вакцины")
+                            Text(text = "Фамилия")
                         },
                         colors = TextFieldDefaults.colors().copy(
                             focusedContainerColor = Color.Transparent,
@@ -77,12 +78,12 @@ fun AddVaccinationDialog(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = date,
+                        value =name,
                         onValueChange = {
-                            date = it.take(10)
+                            name = it.take(10)
                         },
                         placeholder = {
-                            Text(text = "Дата")
+                            Text(text = "Имя")
                         },
                         colors = TextFieldDefaults.colors().copy(
                             focusedContainerColor = Color.Transparent,
@@ -93,12 +94,12 @@ fun AddVaccinationDialog(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = type,
+                        value = lastname,
                         onValueChange = {
-                            type = it.take(30)
+                            lastname = it.take(15)
                         },
                         placeholder = {
-                            Text(text = "Тип вакцины")
+                            Text(text = "Отчество")
                         },
                         colors = TextFieldDefaults.colors().copy(
                             focusedContainerColor = Color.Transparent,
@@ -109,12 +110,12 @@ fun AddVaccinationDialog(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = series,
+                        value = address,
                         onValueChange = {
-                            series = it.take(20)
+                            address = it
                         },
                         placeholder = {
-                            Text(text = "Серия")
+                            Text(text = "Адрес")
                         },
                         colors = TextFieldDefaults.colors().copy(
                             focusedContainerColor = Color.Transparent,
@@ -125,12 +126,44 @@ fun AddVaccinationDialog(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = reaction,
+                        value = workPlace,
                         onValueChange = {
-                            reaction = it
+                            workPlace = it.take(10)
                         },
                         placeholder = {
-                            Text(text = "Реакция на вакцину")
+                            Text(text = "Место работы")
+                        },
+                        colors = TextFieldDefaults.colors().copy(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    TextField(
+                        value = phoneNumber,
+                        onValueChange = {
+                            phoneNumber = it.take(10)
+                        },
+                        placeholder = {
+                            Text(text = "Номер телефона")
+                        },
+                        colors = TextFieldDefaults.colors().copy(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    TextField(
+                        value = mail,
+                        onValueChange = {
+                            mail = it.take(10)
+                        },
+                        placeholder = {
+                            Text(text = "Почта")
                         },
                         colors = TextFieldDefaults.colors().copy(
                             focusedContainerColor = Color.Transparent,
@@ -143,7 +176,7 @@ fun AddVaccinationDialog(
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                setValue(VaccinationModel(type,name,date,series,reaction))
+                                setValue(UserModel(surname,name,lastname,address,workPlace,phoneNumber,mail))
                                 setShowDialog(false)
                             },
                             shape = RoundedCornerShape(50.dp),
@@ -162,15 +195,3 @@ fun AddVaccinationDialog(
         }
     }
 }
-
-@Preview
-@Composable
-fun AddVaccinationPreview() {
-    AddVaccinationDialog(
-        vaccinationModel = VaccinationModel("", "", "", "", ""),
-        setShowDialog = {}) {
-
-    }
-}
-
-

@@ -1,10 +1,10 @@
 package com.crype.passportofhealth.domain.model
 
 data class HealthIndicatorsModel(
-    val weight: Float,
-    val height: Float,
-    var highPressure: Int,
-    var lowPressure: Int,
-    val glucose: Float,   //70 - 110 мг/дл
-    val cholesterol: Float   //3.6 - 5.2 ммоль/л
+    var weight: String,
+    var height: String,
+    var highPressure: String,
+    var lowPressure: String,
+    var glucose: String,   //70 - 110 мг/дл
+    var cholesterol: String   //3.6 - 5.2 ммоль/л
 )

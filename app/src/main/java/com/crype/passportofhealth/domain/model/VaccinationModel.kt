@@ -1,9 +1,9 @@
 package com.crype.passportofhealth.domain.model
 
 data class VaccinationModel(
-    val type: String,
+    var type: String,
     var name: String,
-    val date: String,
-    val series: String,
-    val reaction: String
+    var date: String,
+    var series: String,
+    var reaction: String
 )
