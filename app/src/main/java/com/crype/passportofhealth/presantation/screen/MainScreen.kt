@@ -110,8 +110,8 @@ fun MainScreen() {
         content = { innerPadding ->
             NavGraph(
                 navController = navController,
-                startDestination = ContentScreen.Start.route,   //изменить
-                //startDestination = RootScreen.Login.route,
+                //startDestination = ContentScreen.Start.route,   //изменить
+                startDestination = RootScreen.Login.route,
                 modifier = Modifier
                     .padding(innerPadding)
                     .padding(horizontal = 15.dp)

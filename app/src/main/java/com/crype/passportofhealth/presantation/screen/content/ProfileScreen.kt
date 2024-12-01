@@ -11,9 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,36 +24,24 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.crype.passportofhealth.R
-import com.crype.passportofhealth.domain.model.UserModel
+import com.crype.passportofhealth.presantation.components.UserInfoSection
 import com.crype.passportofhealth.presantation.components.dialog.AddUserInfoDialog
+import com.crype.passportofhealth.presantation.viewModel.UserViewModel
+import org.koin.androidx.compose.get
 
 @Composable
 fun ProfileScreen(
-    navController: NavController,
-    modifier: Modifier
+    modifier: Modifier,
+    viewModel: UserViewModel = get()
 ) {
-    var example by remember {
-        mutableStateOf(
-            UserModel(
-                "Дударев",
-                "Алексей",
-                "Дмитриевич",
-                "г.Новополоцк, ул.Молодёжная, д.188, корп.1, кв.17",
-                "клуб 'Plaza'",
-                "+375333056785",
-                "litowrog@gmail.com",
-            )
-        )
-    }
-    val showDialog = remember { mutableStateOf(false) }
-    if (showDialog.value)
-        AddUserInfoDialog(userModel = example,
-            setShowDialog = {
-                showDialog.value = it
-            }) {
-            //Add Info to Firebase
 
-            example = it
+    val user by viewModel.user
+    val isDialogVisible by viewModel.isDialogVisible
+    if (isDialogVisible)
+        AddUserInfoDialog(
+            userModel = user,
+            setShowDialog = {viewModel.toggleDialogVisibility()}) {
+            viewModel.updateUser(it)
         }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -72,89 +57,30 @@ fun ProfileScreen(
         )
         Spacer(modifier = Modifier.height(15.dp))
         Text(
-            text = "${example.surname} ${example.name} ${example.lastname}",
+            text = "${user.surname} ${user.name} ${user.lastname}",
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Serif
         )
         Spacer(modifier = Modifier.height(25.dp))
-        Text(
-            text = "Адрес",
-            fontSize = 17.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = example.address,
-            fontSize = 15.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Normal,
-            fontFamily = FontFamily.Serif
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        Text(
-            text = "Место работы",
-            fontSize = 17.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = example.workPlace,
-            fontSize = 15.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Normal,
-            fontFamily = FontFamily.Serif
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        Text(
-            text = "Номер телефона",
-            fontSize = 17.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = example.phoneNumber,
-            fontSize = 15.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Normal,
-            fontFamily = FontFamily.Serif
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        Text(
-            text = "Почта",
-            fontSize = 17.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = example.email,
-            fontSize = 15.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Normal,
-            fontFamily = FontFamily.Serif
-        )
+        UserInfoSection("Адрес", user.address)
+        UserInfoSection("Место работы", user.workPlace)
+        UserInfoSection("Номер телефона", user.phoneNumber)
+        UserInfoSection("Почта", user.email)
+
         Spacer(modifier = Modifier.height(30.dp))
         Text(
             text = "Изменить",
-            fontSize = 12.sp,
+            fontSize = 13.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Normal,
             fontFamily = FontFamily.Serif,
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable {
-                showDialog.value = true
+                viewModel.toggleDialogVisibility()
             }
         )
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun ProfilePreview() {
-    ProfileScreen(navController = rememberNavController(), modifier = Modifier)
+    }
 }

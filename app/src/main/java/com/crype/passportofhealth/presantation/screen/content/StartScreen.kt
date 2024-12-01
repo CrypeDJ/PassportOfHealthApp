@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,18 +19,21 @@ import com.crype.passportofhealth.R
 import com.crype.passportofhealth.presantation.components.buttons.MainButtonComponent
 import com.crype.passportofhealth.presantation.components.TitleComponent
 import com.crype.passportofhealth.presantation.navigation.ContentScreen
+import com.crype.passportofhealth.presantation.viewModel.UserViewModel
+import org.koin.androidx.compose.get
 
 @Composable
 fun StartScreen(
     navController: NavController,
-    modifier: Modifier
+    modifier: Modifier,
+    viewModel: UserViewModel = get()
 ){
-    val name = "Pasha durak"
+    val user by viewModel.user
     Column(
         modifier = modifier
     ) {
         Spacer(modifier = Modifier.padding(10.dp))
-        TitleComponent(text = "С возвращением, $name", size = 35.sp)
+        TitleComponent(text = "С возвращением, ${user.name}", size = 35.sp)
         Spacer(modifier = Modifier.padding(15.dp))
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),

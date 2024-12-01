@@ -16,15 +16,10 @@ class AuthRepositoryImpl(
                 ?: throw Exception("User creation failed")
 
             val userData = UserModel(
-                surname = "-",
                 name = name,
-                lastname = "-",
-                address = "-",
-                workPlace = "-",
-                phoneNumber = "-",
                 email = email
             )
-            firestore.collection("users").document(user.uid).set(userData).await()
+            firestore.collection("usersInfo").document(user.uid).set(userData).await()
 
             Result.success(Unit)
         } catch (e: Exception) {

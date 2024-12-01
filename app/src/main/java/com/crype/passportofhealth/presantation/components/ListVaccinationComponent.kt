@@ -10,7 +10,7 @@ import com.crype.passportofhealth.domain.model.VaccinationModel
 @Composable
 fun ListVaccinationComponent(
     padding: PaddingValues,
-    list: MutableList<VaccinationModel>,
+    list: List<VaccinationModel>,
     onClick: (Int) -> Unit,
     onLongClick: (Int) -> Unit
 ) {

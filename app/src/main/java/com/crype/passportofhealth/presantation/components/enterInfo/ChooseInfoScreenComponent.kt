@@ -28,7 +28,8 @@ fun ChooseInfoScreenComponent(
     isEditText: Boolean,
     name: String,
     value: String,
-    listOfVariants: MutableList<String>
+    listOfVariants: MutableList<String>,
+    onValueChange: (String) -> Unit
 ) {
     var isExpanded by remember {
         mutableStateOf(false)
@@ -74,7 +75,7 @@ fun ChooseInfoScreenComponent(
                             )
                         },
                         onClick = {
-                            text = it
+                            onValueChange(it)
                             isExpanded = false
                         }
                     )
@@ -93,6 +94,7 @@ fun ChooseInfoScreenPreview() {
         isEditText = true,
         name = "Тип питания",
         value = "Сбалансированный",
-        listOfVariants = mutableListOf("sfsdf", "sgsdgfsd", "sgsggsdg")
+        listOfVariants = mutableListOf("sfsdf", "sgsdgfsd", "sgsggsdg"),
+        onValueChange = {}
     )
 }

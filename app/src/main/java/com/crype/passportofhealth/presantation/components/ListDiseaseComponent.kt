@@ -11,7 +11,7 @@ import com.crype.passportofhealth.domain.model.DiseaseModel
 @Composable
 fun ListDiseaseComponent(
     padding: PaddingValues,
-    list: MutableList<DiseaseModel>,
+    list: List<DiseaseModel>,
     onClick: (Int) -> Unit,
     onLongClick: (Int) -> Unit
 ){

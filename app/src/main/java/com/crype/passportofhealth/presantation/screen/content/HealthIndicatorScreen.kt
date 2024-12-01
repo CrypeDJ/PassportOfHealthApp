@@ -30,25 +30,17 @@ import com.crype.passportofhealth.domain.model.HealthIndicatorsModel
 import com.crype.passportofhealth.presantation.components.TitleComponent
 import com.crype.passportofhealth.presantation.components.enterInfo.InfoScreenComponent
 import com.crype.passportofhealth.presantation.components.enterInfo.PressureComponent
+import com.crype.passportofhealth.presantation.viewModel.HealthIndicatorViewModel
+import org.koin.androidx.compose.get
+import kotlin.math.pow
 
 @Composable
 fun HealthIndicatorScreen(
-    navController: NavController,
     modifier: Modifier,
+    viewModel: HealthIndicatorViewModel = get()
 ) {
-    var example by remember {
-        mutableStateOf(
-            HealthIndicatorsModel(
-                weight = "72",
-                height = "185",
-                highPressure =  "120",
-                lowPressure = "90",
-                glucose = "80",
-                cholesterol = "4"
-            )
-        )
-    }
-    var isEditText by remember { mutableStateOf(false) }
+    val healthIndicators by viewModel.healthIndicators
+    val isEditMode by viewModel.isEditMode
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -65,14 +57,15 @@ fun HealthIndicatorScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = { /*TODO*/ //save to db
-                    isEditText = !isEditText
+                onClick = {
+                    if (isEditMode) viewModel.saveHealthIndicators()
+                    else viewModel.toggleEditMode()
                 },
                 modifier = Modifier.requiredSize(60.dp)
             ) {
                 Icon(
                     painter = painterResource(
-                        id = if (isEditText) R.drawable.icon_save
+                        id = if (isEditMode) R.drawable.icon_save
                         else R.drawable.icon_edit
                     ),
                     contentDescription = null,
@@ -86,61 +79,62 @@ fun HealthIndicatorScreen(
         ) {
             item {
                 InfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Вес(кг)",
-                    value = example.weight,
+                    value = healthIndicators.weight,
                     keyboardType = KeyboardType.Number
-                ) { example = example.copy(weight = it) }
+                ) {
+                    viewModel.updateHealthIndicator(healthIndicators.copy(weight = it))
+                }
             }
             item {
                 InfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Рост(см)",
-                    value = example.height,
+                    value = healthIndicators.height,
                     keyboardType = KeyboardType.Number
-                ) { example = example.copy(height = it) }
+                ) {
+                    viewModel.updateHealthIndicator(healthIndicators.copy(height = it))
+                }
             }
             item {
                 InfoScreenComponent(
                     isEditText = false,
                     name = "ИМТ",
-                    value = (example.weight.toFloat() / (example.height.toFloat() / 100 * example.height.toFloat() / 100)).toString(),
+                    value = viewModel.IMTCalculate(),
                     keyboardType = KeyboardType.Number
                 ) {}
             }
             item {
                 PressureComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Давление",
-                    highPressure = example.highPressure,
-                    lowPressure = example.lowPressure,
-                    onHighChange = { example = example.copy(highPressure = it) },
-                    onLowChange = { example = example.copy(lowPressure = it) }
+                    highPressure = healthIndicators.highPressure,
+                    lowPressure = healthIndicators.lowPressure,
+                    onHighChange = { viewModel.updateHealthIndicator(healthIndicators.copy(highPressure = it)) },
+                    onLowChange = { viewModel.updateHealthIndicator(healthIndicators.copy(lowPressure = it))}
                 )
             }
             item {
                 InfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Холестирин",
-                    value = example.cholesterol,
+                    value = healthIndicators.cholesterol,
                     keyboardType = KeyboardType.Number
-                ) { example = example.copy(cholesterol = it) }
+                ) {
+                    viewModel.updateHealthIndicator(healthIndicators.copy(cholesterol = it))
+                }
             }
             item {
                 InfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Глюкоза",
-                    value = example.glucose,
+                    value = healthIndicators.glucose,
                     keyboardType = KeyboardType.Number
-                ) { example = example.copy(glucose = it) }
+                ) {
+                    viewModel.updateHealthIndicator(healthIndicators.copy(glucose = it))
+                }
             }
         }
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun HealthIndicatorPreview() {
-    HealthIndicatorScreen(navController = rememberNavController(), modifier = Modifier)
 }

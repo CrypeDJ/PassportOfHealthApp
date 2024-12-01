@@ -28,22 +28,17 @@ import com.crype.passportofhealth.R
 import com.crype.passportofhealth.domain.model.LifestyleModel
 import com.crype.passportofhealth.presantation.components.enterInfo.ChooseInfoScreenComponent
 import com.crype.passportofhealth.presantation.components.TitleComponent
+import com.crype.passportofhealth.presantation.viewModel.LifecycleViewModel
+import org.koin.androidx.compose.get
 
 @Composable
 fun LifecycleScreen(
-    navController: NavController,
-    modifier: Modifier
+
+    modifier: Modifier,
+    viewModel: LifecycleViewModel = get()
 ) {
-    val example = LifestyleModel(
-        "Сбалансированное",
-        "3 раза в день",
-        "нет",
-        "1 раз в неделю",
-        "каждый день",
-        "нет",
-        "никогда",
-    )
-    var isEditText by remember { mutableStateOf(false) }
+    val lifestyle by viewModel.lifestyle
+    val isEditMode by viewModel.isEditMode
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -61,13 +56,14 @@ fun LifecycleScreen(
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = { /*TODO*/
-                    isEditText = !isEditText
+                    if (isEditMode) viewModel.saveLifestyle()
+                    else viewModel.toggleEditMode()
                 },
                 modifier = Modifier.requiredSize(60.dp)
             ) {
                 Icon(
                     painter = painterResource(
-                        id = if (isEditText) R.drawable.icon_save
+                        id = if (isEditMode) R.drawable.icon_save
                         else R.drawable.icon_edit
                     ),
                     contentDescription = null,
@@ -81,9 +77,9 @@ fun LifecycleScreen(
         ) {
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Тип питания",
-                    value = example.typeOfNutrition,
+                    value = lifestyle.typeOfNutrition,
                     listOfVariants = mutableListOf(
                         "Обычный",
                         "Вегетарианство",
@@ -94,13 +90,15 @@ fun LifecycleScreen(
                         "Диета Дюкана",
                         "Другое",
                     )
-                )
+                ) {
+                    viewModel.updateLifestyle(lifestyle.copy(typeOfNutrition = it))
+                }
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Режим питания",
-                    value = example.modeOfNutrition,
+                    value = lifestyle.modeOfNutrition,
                     listOfVariants = mutableListOf(
                         "3 раза в день",
                         "2 раза в день",
@@ -109,13 +107,15 @@ fun LifecycleScreen(
                         "Больше 5 раз в день",
                         "Менее 2 раз в день",
                     )
-                )
+                ){
+                    viewModel.updateLifestyle(lifestyle.copy(modeOfNutrition = it))
+                }
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Курение",
-                    value = example.smoking,
+                    value = lifestyle.smoking,
                     listOfVariants = mutableListOf(
                         "Никогда",
                         "Реже одного раза в месяц",
@@ -124,13 +124,15 @@ fun LifecycleScreen(
                         "1-2 раза в день",
                         "Более 2 раз в день",
                     )
-                )
+                ){
+                    viewModel.updateLifestyle(lifestyle.copy(smoking = it))
+                }
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Алкоголь",
-                    value = example.alcohol,
+                    value = lifestyle.alcohol,
                     listOfVariants = mutableListOf(
                         "Никогда",
                         "Реже одного раза в месяц",
@@ -139,13 +141,15 @@ fun LifecycleScreen(
                         "1-2 раза в день",
                         "Более 2 раз в день",
                     )
-                )
+                ){
+                    viewModel.updateLifestyle(lifestyle.copy(alcohol = it))
+                }
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = isEditText,
+                    isEditText = isEditMode,
                     name = "Наркота",
-                    value = example.drugs,
+                    value = lifestyle.drugs,
                     listOfVariants = mutableListOf(
                         "Никогда",
                         "Реже одного раза в месяц",
@@ -154,13 +158,15 @@ fun LifecycleScreen(
                         "1-2 раза в день",
                         "Более 2 раз в день",
                     )
-                )
+                ){
+                    viewModel.updateLifestyle(lifestyle.copy(drugs = it))
+                }
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = isEditText,
-                    name = "Частота физ. активности",
-                    value = example.physicalActivity,
+                    isEditText = isEditMode,
+                    name = "Тип физ.активности",
+                    value = lifestyle.physicalActivity,
                     listOfVariants = mutableListOf(
                         "Никогда",
                         "Меньше одного раза в неделю",
@@ -170,13 +176,15 @@ fun LifecycleScreen(
                         "Ежедневно",
                         "Больше одного раза в день"
                     )
-                )
+                ){
+                    viewModel.updateLifestyle(lifestyle.copy(physicalActivity = it))
+                }
             }
             item {
                 ChooseInfoScreenComponent(
-                    isEditText = isEditText,
-                    name = "Тип физ.активности",
-                    value = example.frequencyOfPhysical,
+                    isEditText = isEditMode,
+                    name = "Частота физ. активности",
+                    value = lifestyle.frequencyOfPhysical,
                     listOfVariants = mutableListOf(
                         "Нет",
                         "Пешие прогулки",
@@ -188,15 +196,10 @@ fun LifecycleScreen(
                         "Танцы или аэробика",
                         "Гибридные тренировки"
                     )
-                )
+                ){
+                    viewModel.updateLifestyle(lifestyle.copy(frequencyOfPhysical = it))
+                }
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LifestylePreview()
-{
-    LifecycleScreen(navController = rememberNavController(), modifier = Modifier)
 }

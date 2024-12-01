@@ -6,89 +6,40 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.crype.passportofhealth.domain.model.DiseaseModel
-import com.crype.passportofhealth.domain.model.ListItemModel
 import com.crype.passportofhealth.domain.model.VaccinationModel
 import com.crype.passportofhealth.presantation.components.ListVaccinationComponent
 import com.crype.passportofhealth.presantation.components.TitleComponent
 import com.crype.passportofhealth.presantation.components.buttons.AddButtonComponent
-import com.crype.passportofhealth.presantation.components.dialog.AddDiseaseDialog
 import com.crype.passportofhealth.presantation.components.dialog.AddVaccinationDialog
+import com.crype.passportofhealth.presantation.viewModel.VaccinationViewModel
+import org.koin.androidx.compose.get
 
 @Composable
 fun VaccinationScreen(
-    navController: NavController,
-    modifier: Modifier
-){
-    val exampleList = remember {
-        mutableStateListOf(
-            VaccinationModel(
-                type = "COVID-19",
-                name = "Pfizer",
-                date = "15.02.2024",
-                series = "12345-67890",
-                reaction = "Mild fever, slight pain at the injection site"
-            ),
-            VaccinationModel(
-                type = "Influenza",
-                name = "Vaxigrip",
-                date = "01.01.2024",
-                series = "98765-43210",
-                reaction = "None"
-            ),
-            VaccinationModel(
-                type = "Hepatitis B",
-                name = "Engerix-B",
-                date = "10.03.2023",
-                series = "56789-12345",
-                reaction = "Slight fatigue"
-            ),
-            VaccinationModel(
-                type = "Tetanus",
-                name = "Tetavax",
-                date = "25.07.2022",
-                series = "24680-13579",
-                reaction = "Slight redness at injection site"
-            )
-        )
-    }
+    modifier: Modifier,
+    viewModel: VaccinationViewModel = get()
+) {
 
-
-    val showEditDialog = remember { mutableStateOf(false) }
-    val selectedItem = remember {
-        mutableStateOf(0)
-    }
-    if(showEditDialog.value)
-        AddVaccinationDialog(vaccinationModel = exampleList[selectedItem.value],
-            setShowDialog = {
-                showEditDialog.value = it
-            }) {
-            //Add Info to Firebase
-
-
-            exampleList[selectedItem.value] = it
+    val vaccinations = viewModel.vaccinations
+    val isAddDialogVisible by viewModel.isAddDialogVisible
+    val isEditDialogVisible by viewModel.isEditDialogVisible
+    val selectedIndex = viewModel.selectedIndex
+    if (isAddDialogVisible)
+        AddVaccinationDialog(
+            vaccinationModel = VaccinationModel(),
+            setShowDialog = { viewModel.toggleAddDialog() }) {
+            viewModel.addVaccination(it)
         }
-
-    val showAddDialog =  remember { mutableStateOf(false) }
-
-    if(showAddDialog.value)
-        AddVaccinationDialog(vaccinationModel = VaccinationModel(
-            "",
-            "",
-            "",
-            "",
-            "",
-        ), setShowDialog = {
-            showAddDialog.value = it
-        }) {
-            //Add Info to Firebase
+    if (isEditDialogVisible)
+        AddVaccinationDialog(
+            vaccinationModel = vaccinations[selectedIndex],
+            setShowDialog = { viewModel.toggleEditDialog(selectedIndex) }) {
+            viewModel.updateVaccination(it)
         }
     Column(
         modifier = modifier.padding(horizontal = 20.dp)
@@ -99,18 +50,17 @@ fun VaccinationScreen(
         )
         Spacer(modifier = Modifier.height(15.dp))
         AddButtonComponent {
-            showAddDialog.value = true
+            viewModel.toggleAddDialog()
         }
         Spacer(modifier = Modifier.height(25.dp))
         ListVaccinationComponent(
             padding = PaddingValues(),
-            list = exampleList,
+            list = vaccinations,
             onClick = {
-                selectedItem.value = it
-                showEditDialog.value = true
+                viewModel.toggleEditDialog(it)
             },
             onLongClick = {
-                exampleList.removeAt(it)
+                viewModel.deleteVaccination(it)
             }
         )
     }

@@ -40,19 +40,19 @@ fun NavGraph(
             )
         }
         composable(route = ContentScreen.Disease.route){
-            DiseaseScreen(navController = navController, modifier = modifier)
+            DiseaseScreen(modifier = modifier)
         }
         composable(route = ContentScreen.HealthIndicator.route){
-            HealthIndicatorScreen(navController = navController, modifier = modifier)
+            HealthIndicatorScreen(modifier = modifier)
         }
         composable(route = ContentScreen.Lifecycle.route){
-            LifecycleScreen(navController = navController, modifier = modifier)
+            LifecycleScreen(modifier = modifier)
         }
         composable(route = ContentScreen.Profile.route){
-            ProfileScreen(navController = navController, modifier = modifier)
+            ProfileScreen(modifier = modifier)
         }
         composable(route = ContentScreen.Vaccination.route){
-            VaccinationScreen(navController = navController, modifier = modifier)
+            VaccinationScreen(modifier = modifier)
         }
         composable(route = RootScreen.Login.route){
             LoginScreen(navController)
