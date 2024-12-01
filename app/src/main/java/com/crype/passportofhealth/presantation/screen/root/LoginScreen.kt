@@ -1,5 +1,6 @@
 package com.crype.passportofhealth.presantation.screen.root
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -58,6 +60,7 @@ fun LoginScreen(
     var color by remember {
         mutableStateOf(Color.Transparent)
     }
+    val context = LocalContext.current
     Column(
         modifier = Modifier.padding(25.dp)
     ) {
@@ -111,7 +114,7 @@ fun LoginScreen(
                 if (mail.isEmpty() || password.isEmpty()) {
                     color = Color.Red
                     errorMessage = "Заполните поля"
-                } else viewModel.login(mail, password)
+                } else viewModel.login(mail.trim(), password)
             },
             text = "Вход"
         )
@@ -136,6 +139,7 @@ fun LoginScreen(
             }
 
             is AuthUiState.Error -> {
+                Toast.makeText(context, mail, Toast.LENGTH_LONG).show()
                 errorMessage = (uiState as AuthUiState.Error).message ?: "Error"
                 color = Color.Red
             }

@@ -34,9 +34,6 @@ fun ChooseInfoScreenComponent(
     var isExpanded by remember {
         mutableStateOf(false)
     }
-    var text by remember {
-        mutableStateOf(value)
-    }
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -50,7 +47,7 @@ fun ChooseInfoScreenComponent(
             Modifier.wrapContentSize(Alignment.TopEnd)
         ) {
             Text(
-                text = text,
+                text = value,
                 modifier = Modifier
                     .clickable {
                         isExpanded = if (isEditText) !isExpanded

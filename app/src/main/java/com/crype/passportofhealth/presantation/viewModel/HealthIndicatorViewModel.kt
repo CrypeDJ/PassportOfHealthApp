@@ -42,9 +42,17 @@ class HealthIndicatorViewModel(
         }
     }
 
-    fun IMTCalculate():String {
-        val weight = _healthIndicators.value.weight.toFloat()
-        val height = _healthIndicators.value.height.toFloat() / 100
-        return (weight/(height*height)).toString()
+    fun imtCalculate():String {
+        val weight = _healthIndicators.value.weight.toFloatOrNull()
+        val heightCm = _healthIndicators.value.height.toFloatOrNull()
+
+        if (weight == null || heightCm == null || heightCm <= 0) {
+            return "Некорректные данные"
+        }
+
+        val heightMeters = heightCm / 100
+        val imt = weight / (heightMeters * heightMeters)
+
+        return "%.2f".format(imt)
     }
 }

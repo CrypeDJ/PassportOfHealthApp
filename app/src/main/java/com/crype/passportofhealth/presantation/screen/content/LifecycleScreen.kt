@@ -13,27 +13,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.crype.passportofhealth.R
-import com.crype.passportofhealth.domain.model.LifestyleModel
-import com.crype.passportofhealth.presantation.components.enterInfo.ChooseInfoScreenComponent
 import com.crype.passportofhealth.presantation.components.TitleComponent
+import com.crype.passportofhealth.presantation.components.enterInfo.ChooseInfoScreenComponent
 import com.crype.passportofhealth.presantation.viewModel.LifecycleViewModel
 import org.koin.androidx.compose.get
 
 @Composable
 fun LifecycleScreen(
-
     modifier: Modifier,
     viewModel: LifecycleViewModel = get()
 ) {
@@ -107,7 +99,7 @@ fun LifecycleScreen(
                         "Больше 5 раз в день",
                         "Менее 2 раз в день",
                     )
-                ){
+                ) {
                     viewModel.updateLifestyle(lifestyle.copy(modeOfNutrition = it))
                 }
             }
@@ -124,7 +116,7 @@ fun LifecycleScreen(
                         "1-2 раза в день",
                         "Более 2 раз в день",
                     )
-                ){
+                ) {
                     viewModel.updateLifestyle(lifestyle.copy(smoking = it))
                 }
             }
@@ -141,7 +133,7 @@ fun LifecycleScreen(
                         "1-2 раза в день",
                         "Более 2 раз в день",
                     )
-                ){
+                ) {
                     viewModel.updateLifestyle(lifestyle.copy(alcohol = it))
                 }
             }
@@ -158,7 +150,7 @@ fun LifecycleScreen(
                         "1-2 раза в день",
                         "Более 2 раз в день",
                     )
-                ){
+                ) {
                     viewModel.updateLifestyle(lifestyle.copy(drugs = it))
                 }
             }
@@ -176,7 +168,7 @@ fun LifecycleScreen(
                         "Ежедневно",
                         "Больше одного раза в день"
                     )
-                ){
+                ) {
                     viewModel.updateLifestyle(lifestyle.copy(physicalActivity = it))
                 }
             }
@@ -196,10 +188,11 @@ fun LifecycleScreen(
                         "Танцы или аэробика",
                         "Гибридные тренировки"
                     )
-                ){
+                ) {
                     viewModel.updateLifestyle(lifestyle.copy(frequencyOfPhysical = it))
                 }
             }
         }
     }
 }
+

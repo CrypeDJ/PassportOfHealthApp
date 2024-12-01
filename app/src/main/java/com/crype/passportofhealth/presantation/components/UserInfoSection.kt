@@ -27,4 +27,5 @@ fun UserInfoSection(title: String, content: String) {
         fontWeight = FontWeight.Normal,
         fontFamily = FontFamily.Serif
     )
+    Spacer(modifier = Modifier.height(15.dp))
 }

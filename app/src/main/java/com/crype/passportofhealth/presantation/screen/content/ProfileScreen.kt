@@ -40,7 +40,9 @@ fun ProfileScreen(
     if (isDialogVisible)
         AddUserInfoDialog(
             userModel = user,
-            setShowDialog = {viewModel.toggleDialogVisibility()}) {
+            setShowDialog = {
+                viewModel.toggleDialogVisibility()
+            }) {
             viewModel.updateUser(it)
         }
     Column(
@@ -78,7 +80,7 @@ fun ProfileScreen(
             fontFamily = FontFamily.Serif,
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable {
-                viewModel.toggleDialogVisibility()
+                viewModel.showDialog()
             }
         )
 

@@ -13,26 +13,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.crype.passportofhealth.R
-import com.crype.passportofhealth.domain.model.HealthIndicatorsModel
 import com.crype.passportofhealth.presantation.components.TitleComponent
 import com.crype.passportofhealth.presantation.components.enterInfo.InfoScreenComponent
 import com.crype.passportofhealth.presantation.components.enterInfo.PressureComponent
 import com.crype.passportofhealth.presantation.viewModel.HealthIndicatorViewModel
 import org.koin.androidx.compose.get
-import kotlin.math.pow
 
 @Composable
 fun HealthIndicatorScreen(
@@ -101,7 +93,7 @@ fun HealthIndicatorScreen(
                 InfoScreenComponent(
                     isEditText = false,
                     name = "ИМТ",
-                    value = viewModel.IMTCalculate(),
+                    value = viewModel.imtCalculate(),
                     keyboardType = KeyboardType.Number
                 ) {}
             }

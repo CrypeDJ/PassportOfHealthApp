@@ -102,6 +102,9 @@ fun MainScreen() {
                         },
                         onStartClick = {
                             navController.navigate(route = ContentScreen.Start.route)
+                        },
+                        onDiseaseClick = {
+                            navController.navigate(route = ContentScreen.Disease.route)
                         }
                     )
                 }
@@ -110,7 +113,6 @@ fun MainScreen() {
         content = { innerPadding ->
             NavGraph(
                 navController = navController,
-                //startDestination = ContentScreen.Start.route,   //изменить
                 startDestination = RootScreen.Login.route,
                 modifier = Modifier
                     .padding(innerPadding)

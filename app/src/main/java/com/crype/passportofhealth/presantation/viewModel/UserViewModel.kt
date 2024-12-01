@@ -27,18 +27,21 @@ class UserViewModel(
         }
     }
 
+    private fun hideDialog(){
+        _isDialogVisible.value = false
+    }
+    fun showDialog(){
+        _isDialogVisible.value = true
+    }
     fun toggleDialogVisibility() {
         _isDialogVisible.value = !_isDialogVisible.value
     }
 
     fun updateUser(updatedUser: UserModel) {
         _user.value = updatedUser
-    }
-
-    fun saveUser() {
         viewModelScope.launch {
-            userRepository.saveUser(_user.value)
-            toggleDialogVisibility()
+            userRepository.saveUser(updatedUser)
+            hideDialog()
         }
     }
 }

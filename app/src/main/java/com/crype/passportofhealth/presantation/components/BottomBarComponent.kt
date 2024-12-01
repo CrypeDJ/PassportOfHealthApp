@@ -32,9 +32,10 @@ fun BottomBarComponent(
     onVaccinationClick: () -> Unit,
     onLifecycleClick: () -> Unit,
     onHealthIndicatorsClick: () -> Unit,
-    onStartClick:() ->Unit
+    onStartClick:() ->Unit,
+    onDiseaseClick:() -> Unit
 ) {
-    val spacerWidth = 25.dp
+    val spacerWidth = 10.dp
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
@@ -83,16 +84,16 @@ fun BottomBarComponent(
                 Modifier.requiredSize(30.dp)
             )
         }
+        Spacer(modifier = Modifier.width(spacerWidth))
+        IconButton(
+            onClick = onDiseaseClick,
+            modifier = Modifier.requiredSize(60.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.icon_illness),
+                contentDescription = "",
+                Modifier.requiredSize(30.dp)
+            )
+        }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BottomBarPreview(
-
-) {
-    BottomBarComponent(onVaccinationClick = { /*TODO*/ }, onLifecycleClick = { /*TODO*/ }, onHealthIndicatorsClick = {}) {
-
-    }
-
 }

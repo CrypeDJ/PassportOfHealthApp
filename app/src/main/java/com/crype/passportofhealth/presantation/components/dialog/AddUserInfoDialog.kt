@@ -160,7 +160,7 @@ fun AddUserInfoDialog(
                     TextField(
                         value = mail,
                         onValueChange = {
-                            mail = it.take(10)
+                            mail = it.take(30)
                         },
                         placeholder = {
                             Text(text = "Почта")
